@@ -4,8 +4,8 @@ import M from "materialize-css"
 
 const Createpost=()=>{
 	const history=useHistory()
-	const[title,setTitle]=useState("viv")
-	const[body,setBody]=useState("viv")
+	const[title,setTitle]=useState("")
+	const[body,setBody]=useState("")
 	const[image,setImage]=useState("")
 	const[url,setUrl]=useState("")
 	useEffect(()=>{
@@ -33,6 +33,7 @@ const Createpost=()=>{
 		}
 	})
 	const PostDetails=()=>{
+		if(title.length>0 && body.length>0){
 		const data=new FormData()
 		data.append("file",image)
 		data.append("upload_preset","insta-clone")
@@ -46,7 +47,9 @@ const Createpost=()=>{
 		}).catch(err=>{
 			console.log(err)
 		})
-
+		}else{
+			M.toast({html: "Enter all fields",classes:"#c62828 red darken-2"})
+		}
 	}
 	return(
 		<div>

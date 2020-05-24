@@ -4,7 +4,7 @@ const router=express.Router()
 const requireLogin=require('../middleware/requiredlogin')
 const Post=mongoose.model("Post")
 
-router.get('/getallpost',(req,res)=>{
+router.get('/getallpost',requireLogin,(req,res)=>{
 	Post.find().populate("postedBy","_id name").then(posts=>{
 		res.json({posts})
 	})
@@ -32,6 +32,7 @@ router.post('/createpost',requireLogin,(req,res)=>{
 		console.log(err)
 	})
 })
+
  router.get('/myposts',requireLogin,(req,res)=>{
  	Post.find({postedBy:req.user._id})
  	.populate("postedBy","name _id")
@@ -42,5 +43,33 @@ router.post('/createpost',requireLogin,(req,res)=>{
  		console.log(err)
  	})
  })
+
+router.put('/like',requireLogin,(req,res)=>{
+	Post.findByIdAndUpdate(req.body.postId,{
+		$push:{likes:req.user._id}
+	},{
+		new:true
+	}).exec((err,result)=>{
+		if(err){
+			return res.status(422).json({error:err})
+		}else{
+			res.json(result)
+		}
+	})
+})
+
+router.put('/unlike',requireLogin,(req,res)=>{
+	Post.findByIdAndUpdate(req.body.postId,{
+		$pull:{likes:req.user._id}
+	},{
+		new:true
+	}).exec((err,result)=>{
+		if(err){
+			return res.status(422).json({error:err})
+		}else{
+			res.json(result)
+		}
+	})
+})
 
 module.exports=router

@@ -38,7 +38,7 @@ const Signup=()=>{
 		        <h1 className="brand-logo">Instagram</h1>
 		        <input type="text" placeholder="Name" value={name} onChange={(event)=>setName(event.target.value)}/>
 		        <input type="text" placeholder="Email" value={email} onChange={(event)=>setEmail(event.target.value)}/>
-		        <input type="text" placeholder="Password" value={password} onChange={(event)=>setPassword(event.target.value)}/>
+		        <input type="password" placeholder="Password" value={password} onChange={(event)=>setPassword(event.target.value)}/>
 		        <button className="waves-effect waves-light btn #1976d2 blue darken-2" onClick={()=>PostData()}>Submit</button>
 		        <Link to="/signin"><h5>Already have an account?</h5></Link>
 	      	</div>
